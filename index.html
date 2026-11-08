@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DigiAcadémie</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0B7A4B">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script src="config.js"></script>
+<style>
+:root{--bg:#F4F7F3;--sf:#fff;--ink:#12261C;--mut:#5B6B62;--pr:#0B7A4B;--prt:#fff;--gd:#E8A200;--ln:#D3DED5;--bad:#C23A22;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1913;--sf:#15271E;--ink:#E9F2EC;--mut:#9DB2A5;--pr:#3DD68C;--prt:#06150D;--gd:#F5B83A;--ln:#25402F;--bad:#FF8A73;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0D1913;--sf:#15271E;--ink:#E9F2EC;--mut:#9DB2A5;--pr:#3DD68C;--prt:#06150D;--gd:#F5B83A;--ln:#25402F;--bad:#FF8A73;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,"Segoe UI",Roboto,sans-serif;padding-bottom:84px}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.15;margin:0 0 8px}
+h1{font-size:27px;font-weight:800}h2{font-size:23px;font-weight:800}h3{font-size:18px;font-weight:600}
+main{max-width:640px;margin:0 auto;padding:20px 16px}
+p{margin:0 0 10px}.mut{color:var(--mut)}
+.hero{display:flex;gap:16px;align-items:center;margin-bottom:24px}
+.ring{flex:none;color:var(--ink)}
+.path{border-left:3px solid var(--ln);margin-left:10px;padding-left:24px}
+.node{position:relative;margin-bottom:14px}
+.node::before{content:"";position:absolute;left:-36px;top:20px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:3px solid var(--ln)}
+.node.done::before{background:var(--pr);border-color:var(--pr)}
+.node.cur::before{background:var(--gd);border-color:var(--gd)}
+.card{display:block;background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px 16px;margin-bottom:12px;color:inherit}
+button{font:inherit;cursor:pointer}
+.mod{display:flex;gap:12px;align-items:center;width:100%;text-align:left;margin:0}
+.ic{font-size:28px}
+.btn{display:block;width:100%;background:var(--pr);color:var(--prt);border:0;border-radius:10px;padding:13px 16px;font-weight:700;margin:12px 0}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--ln)}
+.back{background:none;border:0;color:var(--pr);font-weight:700;padding:4px 0 12px}
+.opt{width:100%;text-align:left;border-width:2px}
+.ad{border-style:dashed}
+a.btn{text-align:center;text-decoration:none}
+.opt.ok{border-color:var(--pr)}.opt.bad{border-color:var(--bad)}
+.cert{border:3px double var(--gd);border-radius:14px;padding:20px;text-align:center;margin:16px 0;background:var(--sf)}
+input,textarea,select{width:100%;font:inherit;padding:10px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--ink);margin:6px 0 12px}
+textarea{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px}
+iframe{width:100%;height:140px;border:1px solid var(--ln);border-radius:10px;background:#fff}
+code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:.92em}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--sf);border-top:1px solid var(--ln);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;background:none;border:0;color:var(--mut);padding:8px 0;font-size:13px}
+nav button.on{color:var(--pr);font-weight:700}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gd);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main></main>
+<nav>
+<button data-t="cours" onclick="nav('cours')">📚<br>Cours</button>
+<button data-t="prog" onclick="nav('prog')">🏆<br>Progrès</button>
+<button data-t="info" onclick="nav('info')">ℹ️<br>Infos</button>
+</nav>
+<script>
+const M=[
+{id:"m1",t:"Bases de l’informatique",ic:"💻",L:[
+["Matériel et logiciel","Le matériel (hardware) se touche : écran, clavier, processeur, mémoire RAM, disque dur. Le logiciel (software) ne se touche pas : Windows, Android, WhatsApp, Word. Le processeur calcule, la RAM garde le travail en cours, le disque stocke tout le reste."],
+["Fichiers et dossiers","Un fichier contient une information (photo, document, vidéo). Un dossier range des fichiers. Donne des noms clairs, par exemple <code>facture-mars.pdf</code>. Garde toujours une copie de tes fichiers importants sur une clé USB ou dans le cloud."]],
+Q:[["Que fait la RAM ?",["Elle stocke tout pour toujours","Elle garde le travail en cours","Elle affiche l’image"],1],["Windows est un…",["matériel","logiciel","câble"],1]]},
+{id:"m2",t:"Internet et sécurité",ic:"🌐",L:[
+["Comment fonctionne Internet","Internet est un réseau mondial d’ordinateurs reliés entre eux. Quand tu ouvres un site, ton navigateur envoie une demande à un serveur, qui renvoie la page. Chaque site a une adresse (URL), et ton opérateur (Orange, MTN, Moov…) te connecte au réseau."],
+["Mots de passe et arnaques","Utilise un mot de passe long (12 caractères ou plus), différent pour chaque compte, et active la double authentification. Méfie-toi des messages qui promettent de l’argent facile : personne de sérieux ne te demande ton code Mobile Money."]],
+Q:[["Qui renvoie la page quand tu ouvres un site ?",["Le serveur","Le clavier","La RAM"],0],["Peux-tu donner ton code Mobile Money à quelqu’un qui t’appelle ?",["Oui, si c’est urgent","Non, jamais","Oui, s’il dit être de l’opérateur"],1]]},
+{id:"m3",t:"Bureautique",ic:"📊",L:[
+["Traitement de texte","Avec Word ou Google Docs, tu écris CV, lettres et rapports. Utilise les titres pour structurer, une seule police, et enregistre en PDF avant d’envoyer. Un bon CV tient sur une page : identité, compétences, expériences, formation."],
+["Tableur et formules","Excel ou Google Sheets range des chiffres en lignes et colonnes. Une formule commence par <code>=</code>. Exemples : <code>=A1+B1</code> additionne, <code>=SOMME(A1:A10)</code> totalise une colonne, <code>=MOYENNE(B1:B5)</code> calcule la moyenne. Parfait pour tenir une caisse ou un stock."]],
+Q:[["Une formule commence par…",["#","=","@"],1],["Quelle formule totalise A1 à A10 ?",["=SOMME(A1:A10)","=TOTAL A1-A10","SOMME A1+A10"],0]]},
+{id:"m4",t:"Créer un site web",ic:"🧱",L:[
+["HTML : la structure","HTML décrit le contenu d’une page avec des balises : <code>&lt;h1&gt;</code> pour un grand titre, <code>&lt;p&gt;</code> pour un paragraphe, <code>&lt;a href&gt;</code> pour un lien, <code>&lt;img&gt;</code> pour une image. Modifie le code dans l’éditeur plus bas et regarde le résultat."],
+["CSS : le style","CSS gère couleurs, tailles et positions. Exemple : <code>h1 { color: green; }</code> colore tous les titres en vert. Un site vitrine pour un commerce local est un premier service que tu peux vendre."]],
+Q:[["Quelle balise crée un grand titre ?",["&lt;h1&gt;","&lt;p&gt;","&lt;a&gt;"],0],["CSS sert à…",["stocker des données","donner le style à la page","envoyer des mails"],1]]},
+{id:"m5",t:"Gagner sa vie avec l’informatique",ic:"💼",L:[
+["Les compétences qui se vendent","Création de sites, design avec Canva, community management, saisie et mise en forme de documents, maintenance de PC, montage vidéo. Choisis-en une, pratique une heure par jour pendant trois mois et garde trois réalisations pour ton portfolio."],
+["Trouver des clients et se faire payer","Commence autour de toi : commerçants, écoles, églises, associations. Montre ton portfolio sur WhatsApp et Facebook, puis essaie Fiverr ou Upwork. Demande un acompte de 30 à 50 % par Orange Money, MTN MoMo ou Wave avant de commencer."]],
+Q:[["Que garder pour convaincre un client ?",["Un portfolio de réalisations","Rien","Un mot de passe"],0],["Pourquoi demander un acompte ?",["Pour s’assurer que le client est sérieux","Pour rien","C’est interdit"],0]]},
+{id:"m6",t:"Programmation avec Python",ic:"🐍",L:[
+["Variables et affichage","Une variable garde une valeur : <code>prix = 500</code>. <code>print(prix)</code> affiche le résultat. Python lit le code ligne par ligne, de haut en bas."],
+["Conditions et boucles","<code>if age &gt;= 18:</code> exécute un bloc seulement si la condition est vraie. <code>for i in range(5):</code> répète cinq fois. Le décalage en début de ligne (indentation) est obligatoire."]],
+Q:[["Quelle ligne affiche une valeur ?",["print(prix)","show prix","echo(prix)"],0],["Que fait for i in range(5) ?",["Elle répète 5 fois","Elle efface 5 lignes","Elle crée 5 fichiers"],0]]},
+{id:"m7",t:"Réseaux et maintenance PC",ic:"🔧",L:[
+["Réseau local et Wi-Fi","Un routeur relie tes appareils entre eux et à Internet. Le Wi-Fi est la version sans fil. Change le mot de passe par défaut du routeur et choisis le chiffrement WPA2 ou WPA3."],
+["Dépanner un PC lent","Redémarre, ferme les programmes inutiles, libère de l’espace disque, lance un antivirus et fais les mises à jour. Remplacer un vieux disque dur par un SSD accélère nettement le PC. Beaucoup de gens paient pour ce service."]],
+Q:[["Quel chiffrement Wi-Fi choisir ?",["WPA2 ou WPA3","Aucun","WEP seulement"],0],["Quel composant accélère le plus un vieux PC ?",["Un SSD","Un écran plus grand","Une souris"],0]]},
+{id:"m8",t:"Marketing digital",ic:"📣",L:[
+["Facebook, WhatsApp Business et TikTok","Crée un profil professionnel et publie régulièrement avec une photo nette et un prix clair. WhatsApp Business offre un catalogue et des réponses rapides. Publie quand ton public est connecté."],
+["Mesurer et vendre","Suis les messages, les clics et les ventes. Teste deux publications différentes et garde celle qui marche le mieux. Une bonne offre a un prix en FCFA et un moyen de payer simple."]],
+Q:[["WhatsApp Business permet de…",["créer un catalogue de produits","réparer un PC","créer un virus"],0],["Pourquoi tester deux publications ?",["Voir laquelle marche le mieux","Doubler le prix","Aucune raison"],0]]}
+];
+const X={
+m1:{L:[['Le système d’exploitation','Le système d’exploitation fait le lien entre le matériel et tes applications. Windows et macOS équipent les ordinateurs, Linux est libre et gratuit, Android et iOS font tourner les téléphones. Il gère aussi les fichiers, la mémoire et la sécurité.'],['Clavier et raccourcis','Gagne du temps avec Ctrl+C (copier), Ctrl+V (coller), Ctrl+X (couper), Ctrl+Z (annuler), Ctrl+S (enregistrer) et Ctrl+F (rechercher). Apprends aussi à taper sans regarder le clavier : c’est la base de tous les métiers du numérique.'],['Sauvegardes et mises à jour','Applique la règle 3-2-1 : 3 copies de tes fichiers, sur 2 supports différents, dont 1 hors de chez toi. Installe les mises à jour, qui corrigent des failles de sécurité, et garde au moins 10 % d’espace libre sur ton disque.']],Q:[['Quel raccourci annule la dernière action ?',['Ctrl+S','Ctrl+Z','Ctrl+F'],1]]},
+m2:{L:[['Navigateur et recherche','Un navigateur (Chrome, Firefox, Edge) affiche les pages web. Pour bien chercher, utilise des mots-clés précis, mets une expression exacte entre guillemets et compare plusieurs sources. Vérifie que l’adresse commence par https et vient du site officiel.'],['E-mail professionnel','Crée une adresse sérieuse du type prenom.nom@gmail.com. Un bon message a un objet clair, une salutation, un texte court et une signature. N’ouvre jamais une pièce jointe inattendue ni un lien suspect.'],['Protéger ta vie privée','Ne donne pas ton adresse, ton numéro ou tes photos à n’importe qui. Règle la confidentialité de tes comptes, déconnecte-toi des ordinateurs publics comme ceux des cybercafés et garde ton antivirus à jour.']],Q:[['Que vérifier avant de saisir un mot de passe sur un site ?',['La couleur du site','Le nombre de photos','Que l’adresse commence par https et soit officielle'],2]]},
+m3:{L:[['Mettre en forme un document','Utilise les styles de titre pour créer un sommaire automatique, un interligne de 1,15 à 1,5 et des marges de 2,5 cm. Ajoute les numéros de page, relis avec le correcteur orthographique, puis exporte en PDF.'],['Formules utiles','<code>=SI(A1&gt;=10;&quot;Admis&quot;;&quot;Refusé&quot;)</code> teste une condition. <code>=MAX(B1:B9)</code> et <code>=MIN(B1:B9)</code> donnent la plus grande et la plus petite valeur. Dans Excel en français, les arguments sont séparés par un point-virgule.'],['Présentations','Une bonne diapositive porte une seule idée, avec peu de texte, une police lisible (24 pt minimum) et des images de qualité. Garde les mêmes couleurs sur tout le diaporama et répète ton exposé à voix haute.']],Q:[['Quelle formule donne la plus grande valeur ?',['=PLUS(B1:B9)','=MAX(B1:B9)','=HAUT(B1:B9)'],1]]},
+m4:{L:[['Site adapté au téléphone','Un site « responsive » s’adapte à tous les écrans. Ajoute dans la page <code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</code>. En CSS, préfère les largeurs en pourcentage et <code>max-width</code> aux tailles fixes : beaucoup de visiteurs naviguent sur téléphone.'],['Liens, images et WhatsApp','<code>&lt;a href=&quot;contact.html&quot;&gt;Contact&lt;/a&gt;</code> crée un lien. <code>&lt;img src=&quot;photo.jpg&quot; alt=&quot;Description&quot;&gt;</code> affiche une image, et le texte alt aide les personnes malvoyantes. Un lien <code>https://wa.me/NUMERO</code> ouvre une discussion WhatsApp, idéal pour un commerce.'],['Mettre son site en ligne','Un site en ligne demande un hébergement et, si tu veux une adresse à toi, un nom de domaine payé chaque année. Des services gratuits comme GitHub Pages ou Netlify hébergent les sites simples. Teste ton site sur téléphone avant de le montrer au client.']],Q:[['À quoi sert l’attribut alt d’une image ?',['Changer la taille de l’image','Décrire l’image (accessibilité)','La rendre plus rapide'],1]]},
+m5:{L:[['Fixer ses prix','Calcule le temps passé multiplié par ton tarif horaire, puis ajoute une marge. Annonce un prix clair par service (logo, site vitrine, affiche) et propose deux ou trois formules. Plutôt que de baisser ton prix, propose une version plus simple.'],['Créer ton portfolio','Rassemble trois à cinq réalisations dans une page web ou un PDF. Pour chaque projet, explique le problème du client, ce que tu as fait et le résultat. Sans client, crée des projets d’essai pour des commerces de ton quartier.'],['Devis, facture et suivi','Dans ton devis, écris ce qui est livré, le prix, les délais et le nombre de modifications incluses. Envoie une facture avec la date, le montant et le moyen de paiement. Tiens un tableau de suivi des clients et des paiements.']],Q:[['Que faut-il écrire dans un devis ?',['Seulement ton nom','Ton mot de passe','Le prix, les délais et ce qui est livré'],2]]},
+m6:{L:[['Types et opérations','Python manipule des nombres (<code>int</code>, <code>float</code>), du texte (<code>str</code>) et des booléens (<code>True</code>, <code>False</code>). <code>2 + 3</code> donne 5 et <code>&quot;Bon&quot; + &quot;jour&quot;</code> donne Bonjour. <code>input()</code> demande une valeur à l’utilisateur et la renvoie sous forme de texte.'],['Listes et fonctions','Une liste range plusieurs valeurs : <code>prix = [500, 1000, 250]</code>. <code>len(prix)</code> donne 3 et <code>sum(prix)</code> donne 1750. Une fonction réutilise du code : <code>def double(x): return x * 2</code>.'],['Premier mini-projet','Écris un programme de caisse : une liste de prix, une boucle qui additionne, puis <code>print(&quot;Total :&quot;, total)</code>. Lance-le dans Google Colab ou avec Python installé depuis python.org, puis améliore-le : remise, ticket de caisse.']],Q:[['Que renvoie len([5, 8, 2]) ?',['15','3','2'],1]]},
+m7:{L:[['Adresse IP et DNS','Chaque appareil connecté a une adresse IP, comme une adresse postale. Le DNS traduit un nom de site (exemple.com) en adresse IP. Si le Wi-Fi est connecté mais qu’aucun site ne s’ouvre, vérifie ton forfait de données, puis le DNS.'],['Installer un système','Pour installer Windows ou Linux, prépare une clé USB bootable (avec un outil comme Rufus), puis démarre l’ordinateur dessus. Sauvegarde tes données avant, installe les pilotes (drivers), puis les logiciels de base, toujours depuis les sites officiels.'],['Diagnostiquer une panne','Le PC ne s’allume pas : vérifie le câble, la prise et le chargeur. Écran noir : teste un autre écran ou un autre câble. Bruit anormal du disque : sauvegarde vite. Surchauffe : dépoussière les ventilateurs. Va toujours du plus simple au plus complexe.']],Q:[['Que fait le DNS ?',['Il répare le disque','Il traduit un nom de site en adresse IP','Il augmente la RAM'],1]]},
+m8:{L:[['Créer du contenu','Alterne trois types de publications : utile (une astuce), preuve (avis client, photo avant et après) et offre (prix et contact). Fais des visuels propres avec Canva et filme en lumière naturelle avec ton téléphone.'],['Écrire un message de vente','Structure ton message : un problème que ton client connaît, ta solution, le prix en FCFA, une preuve, puis une action claire comme « Écris-moi sur WhatsApp ». Écris court, dans la langue de ton public.'],['Publicité payante et budget','Facebook et Instagram permettent de payer pour toucher plus de monde. Commence avec un petit budget, cible ta ville et ton public, teste deux visuels et arrête ce qui ne rapporte pas. Calcule toujours combien te coûte chaque vente.']],Q:[['Comment démarrer une publicité payante ?',['Avec tout son argent','Sans cibler personne','Avec un petit budget et un test'],2]]}
+};
+M.forEach(m=>{const x=X[m.id];if(x){m.L.push(...x.L);m.Q.push(...x.Q)}});
+const X2={
+m1:{L:[['Les unités de stockage','L’octet est l’unité de base. 1 Ko vaut environ 1 000 octets, 1 Mo environ 1 000 Ko, 1 Go environ 1 000 Mo et 1 To environ 1 000 Go. Une photo de téléphone pèse quelques Mo et un film plusieurs Go : une clé USB de 32 Go garde donc des milliers de photos.'],['Périphériques d’entrée et de sortie','Les périphériques d’entrée envoient des informations à l’ordinateur : clavier, souris, micro, scanner. Les périphériques de sortie les restituent : écran, imprimante, haut-parleurs. L’écran tactile et la carte réseau font les deux.'],['🛠 Exercice : ranger tes fichiers','Crée un dossier Formation avec trois sous-dossiers : Cours, Exercices et Projets. Enregistre-y un document nommé cv-prenom-nom.pdf, copie-le sur une clé USB ou dans le cloud, puis vérifie que la copie s’ouvre bien.']],Q:[['Combien de Mo y a-t-il environ dans 1 Go ?',['10','1 000','1 000 000'],1]]},
+m2:{L:[['Reconnaître le phishing','Le phishing imite une banque, un opérateur ou un réseau social pour voler tes informations. Signes d’alerte : urgence, fautes, lien étrange, demande de code ou de mot de passe, gain inattendu. En cas de doute, n’ouvre pas le lien : va directement sur le site officiel ou appelle le service client.'],['Gestionnaire de mots de passe et double authentification','Un gestionnaire de mots de passe, comme Bitwarden, crée et retient des mots de passe uniques. La double authentification demande un second code en plus du mot de passe : même volé, ton mot de passe ne suffit plus. Active-la d’abord sur ton e-mail et sur WhatsApp.'],['🛠 Exercice : sécuriser tes comptes','Active la double authentification sur ton e-mail. Change ensuite le mot de passe d’un compte important avec une phrase de quatre mots ou plus. Enfin, note les comptes où tu utilises le même mot de passe et change-les un par un.']],Q:[['Un SMS dit que tu as gagné un prix et demande ton code secret. Que faire ?',['Répondre vite pour ne pas perdre le prix','Donner le code','L’ignorer et le signaler comme arnaque'],2]]},
+m3:{L:[['Mettre en page un CV','Sur une page : nom et contact en haut, titre professionnel, 3 à 5 compétences clés, expériences de la plus récente à la plus ancienne, puis formation. Utilise une seule police, des titres en gras et des phrases courtes qui commencent par un verbe d’action. Exporte en PDF.'],['Tableaux et graphiques','Sélectionne tes données puis insère un graphique : barres pour comparer, courbe pour suivre une évolution dans le temps, secteurs pour les parts d’un total. Donne-lui un titre clair et nomme les axes : un bon graphique se comprend en cinq secondes.'],['🛠 Exercice : suivi de caisse','Dans un tableur, crée les colonnes Date, Produit, Quantité, Prix unitaire et Total (<code>=C2*D2</code>). Ajoute <code>=SOMME(E2:E20)</code> pour le total du jour, puis insère un graphique en barres des ventes par produit.']],Q:[['Quel graphique suit le mieux les ventes mois après mois ?',['Un diagramme en secteurs','Une courbe','Aucun graphique'],1]]},
+m4:{L:[['Structurer une page','Découpe la page en zones : <code>&lt;header&gt;</code> (en-tête), <code>&lt;nav&gt;</code> (menu), <code>&lt;main&gt;</code> (contenu), <code>&lt;section&gt;</code> (parties) et <code>&lt;footer&gt;</code> (pied de page). Une liste à puces s’écrit avec <code>&lt;ul&gt;</code> et des <code>&lt;li&gt;</code>. Ces balises aident aussi Google à comprendre ton site.'],['CSS : espaces, couleurs et Flexbox','<code>padding</code> crée de l’espace à l’intérieur d’un bloc et <code>margin</code> à l’extérieur. <code>display: flex;</code> aligne des éléments en ligne, avec <code>gap</code> pour l’espacement. Limite-toi à deux ou trois couleurs et vérifie que le texte reste bien lisible sur son fond.'],['🛠 Exercice : ta page boutique','Dans l’éditeur de ce module, écris une page « Ma boutique » avec un titre, une liste de trois produits et leur prix en FCFA, puis un lien WhatsApp. Colore le titre, mets les prix en gras, et copie ton code dans un fichier index.html.']],Q:[['Quelle balise crée une liste à puces ?',['&lt;ul&gt;','&lt;h1&gt;','&lt;img&gt;'],0]]},
+m5:{L:[['Choisir sa spécialité','Teste trois compétences, une semaine chacune (design, site web, community management), puis garde celle où tu progresses le plus vite et où des gens autour de toi ont des besoins. Mieux vaut être très bon dans un service que moyen dans dix.'],['Prospecter et négocier','Fais une liste de 20 commerces de ton quartier sans présence en ligne. Envoie un message court : qui tu es, ce que tu proposes, un exemple de ton travail. Relance une fois après trois jours. En négociation, parle d’abord du bénéfice pour le client, puis du prix.'],['🛠 Exercice : ton premier client','Choisis une compétence, rédige un message de présentation de quatre lignes et envoie-le à 10 personnes ou commerces cette semaine. Note chaque réponse dans un tableau (nom, date, réponse, suite à donner). Objectif : décrocher ton premier client, même à petit prix.']],Q:[['Que faire avant de parler du prix à un client ?',['Parler de toi uniquement','Se taire','Expliquer le bénéfice pour lui'],2]]},
+m6:{L:[['Conditions et boucle while','<code>elif</code> ajoute un cas intermédiaire et <code>else</code> le cas par défaut. <code>while</code> répète tant qu’une condition est vraie : <code>while stock &gt; 0:</code>. Évite les boucles infinies : modifie toujours dans la boucle la variable qui est testée.'],['Lire les erreurs et déboguer','Commence par la dernière ligne du message d’erreur : elle dit ce qui ne va pas, par exemple <code>NameError</code> pour une variable inconnue. Le message indique aussi la ligne concernée. Corrige une erreur à la fois, teste après chaque changement et affiche des valeurs avec <code>print</code>.'],['🛠 Exercice : calculer une remise','Écris un programme qui demande un prix avec <code>float(input())</code>, applique 10 % de remise si le prix dépasse 5000, puis affiche le prix final. Teste-le avec 3000, 5000 et 8000 : tu dois obtenir 3000, 5000 et 7200.']],Q:[['Que fait else dans une condition ?',['Il répète le code','Il traite le cas où la condition est fausse','Il efface la variable'],1]]},
+m7:{L:[['Câbles, ports et connectiques','Un câble RJ45 (Ethernet) relie un PC au routeur et reste en général plus stable que le Wi-Fi. HDMI transmet l’image et le son, USB-C sert aux données et à la charge. Si un appareil ne se connecte pas, teste un autre câble et un autre port avant de conclure à une panne.'],['Antivirus et nettoyage','Utilise Microsoft Defender (inclus dans Windows) ou un antivirus reconnu, et évite les logiciels piratés, qui contiennent souvent des virus. Supprime les programmes inutiles, vide les fichiers temporaires et désactive les applications qui se lancent au démarrage.'],['🛠 Exercice : accélérer un PC','Ouvre le Gestionnaire des tâches (Ctrl+Maj+Échap) et note les trois programmes qui utilisent le plus de mémoire. Dans l’onglet Démarrage, désactive deux applications inutiles, redémarre et compare le temps de démarrage avant et après.']],Q:[['Quel câble est en général plus stable que le Wi-Fi ?',['Le câble RJ45 (Ethernet)','Le câble de casque','Aucun'],0]]},
+m8:{L:[['Calendrier de publication','Planifie trois publications par semaine pendant un mois : par exemple lundi une astuce, mercredi une preuve, vendredi une offre. Prépare tes visuels à l’avance et publie quand tes clients sont connectés. La régularité compte plus que la perfection.'],['Fidéliser et obtenir des avis','Un client satisfait est ton meilleur marketing. Demande un avis écrit ou une photo après chaque vente, remercie-le et propose une petite réduction en échange d’une recommandation. Réponds vite aux messages : un client qui attend longtemps va chez un concurrent.'],['🛠 Exercice : ta vitrine en ligne','Crée un compte WhatsApp Business ou une page Facebook pour un petit commerce réel ou fictif. Ajoute cinq produits avec photo et prix, rédige un message de bienvenue, publie ta première offre et note les réponses obtenues après 48 heures.']],Q:[['Que vaut-il mieux pour une page commerciale ?',['Publier une fois par an','Ne jamais répondre','Publier régulièrement avec un calendrier'],2]]}
+};
+M.forEach(m=>{const x=X2[m.id];if(x){m.L.push(...x.L);m.Q.push(...x.Q)}});
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sb='<h1 style="color:green">Bonjour !</h1>\n<p>Ma première page web.</p>';
+let S={done:{},quiz:{},name:""},tab="cours",mod=null,qz=null;
+try{S=Object.assign(S,JSON.parse(localStorage.getItem("da1")||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem("da1",JSON.stringify(S))}catch(e){}};
+const nL=m=>m.L.filter((_,j)=>S.done[m.id+j]).length;
+const need=m=>Math.ceil(m.Q.length*.75);
+const qOk=m=>S.quiz[m.id]>=need(m);
+const total=M.reduce((a,m)=>a+m.L.length+1,0);
+const prog=()=>M.reduce((a,m)=>a+nL(m)+(qOk(m)?1:0),0);
+const mp=m=>(nL(m)+(qOk(m)?1:0))/(m.L.length+1);
+const pct=()=>Math.round(100*prog()/total);
+function ring(p){const r=34,c=2*Math.PI*r;return `<svg class="ring" width="84" height="84" viewBox="0 0 84 84" role="img" aria-label="Progression ${p} %"><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(--ln)" stroke-width="8"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(--pr)" stroke-width="8" stroke-linecap="round" stroke-dasharray="${c*p/100} ${c}" transform="rotate(-90 42 42)"/><text x="42" y="48" text-anchor="middle" font-size="18" font-weight="800" fill="currentColor">${p}%</text></svg>`}
+function vCours(){const cur=M.findIndex(m=>mp(m)<1);
+return `<div class="hero">${ring(pct())}<div><h1>Apprends l’informatique, gratuitement.</h1><p class="mut">${M.length} modules, des quiz et un certificat. Ta progression reste sur ton téléphone.</p></div></div>
+${adCard(0)}<div class="path">${M.map((m,i)=>`<div class="node ${mp(m)>=1?"done":i==cur?"cur":""}"><button class="card mod" onclick="mod=${i};go()"><span class="ic">${m.ic}</span><span><b>${m.t}</b><br><small class="mut">${nL(m)}/${m.L.length} leçons, quiz ${qOk(m)?"réussi":"à faire"}</small></span></button></div>`).join("")}</div>`}
+function vMod(){const m=M[mod];
+return `<button class="back" onclick="mod=null;go()">‹ Retour aux cours</button><h2>${m.ic} ${m.t}</h2>
+${m.L.map((l,j)=>`<article class="card"><h3>${l[0]}</h3><p>${l[1]}</p><button class="btn ${S.done[m.id+j]?"alt":""}" onclick="fin('${m.id+j}')">${S.done[m.id+j]?"Leçon terminée ✓":"Marquer comme terminée"}</button></article>`).join("")}
+${m.id=="m4"?`<div class="card"><h3>Essaie le code</h3><textarea id="ed" rows="5" aria-label="Code HTML" oninput="pv()"></textarea><iframe id="fr" sandbox title="Aperçu"></iframe></div>`:""}
+${adCard(1)}<button class="btn" onclick="qz={i:0,s:0,a:null};go()">${qOk(m)?"Refaire le quiz":"Passer le quiz"}</button>`}
+function vQ(){const m=M[mod],q=m.Q[qz.i];
+if(qz.i>=m.Q.length){const ok=qz.s>=need(m);if(ok){S.quiz[m.id]=qz.s;save()}
+return `<div class="card"><h2>${ok?"Bravo !":"Presque !"}</h2><p>Score : ${qz.s}/${m.Q.length}. ${ok?"Module validé.":"Relis les leçons, puis réessaie (il faut "+need(m)+" bonnes réponses)."}</p><button class="btn" onclick="qz=null;go()">Retour au module</button></div>`}
+return `<p class="mut">Question ${qz.i+1} sur ${m.Q.length}</p><h2>${q[0]}</h2>${q[1].map((o,k)=>`<button class="card opt ${qz.a==null?"":k==q[2]?"ok":k==qz.a?"bad":""}" ${qz.a==null?"":"disabled"} onclick="ans(${k})">${o}</button>`).join("")}${qz.a!=null?`<button class="btn" onclick="qz.i++;qz.a=null;go()">Continuer</button>`:""}`}
+function vProg(){const p=pct(),L=M.reduce((a,m)=>a+nL(m),0),Qn=M.filter(qOk).length;
+return `<h2>Ta progression</h2><div class="hero">${ring(p)}<div><b>${L*10+Qn*30} points</b><p class="mut">${L} leçons terminées, ${Qn} quiz réussis sur ${M.length}.</p></div></div>
+${p>=100?`<div class="cert"><h2>Certificat de réussite</h2><input id="nm" placeholder="Ton nom complet" aria-label="Ton nom" value="${esc(S.name||"")}" oninput="S.name=this.value;save();$('#cn').textContent=this.value||'Ton nom'"><p class="mut">décerné à</p><h3 id="cn">${esc(S.name||"Ton nom")}</h3><p class="mut">pour avoir terminé la formation DigiAcadémie.</p>${valid?`<p><b>Certificat vérifié ✓</b> N° DA-${esc(String(ME).slice(0,6).toUpperCase())}</p>`:''}</div>`:`<div class="card">Termine les ${M.length} modules et leurs quiz pour débloquer ton certificat.</div>`}
+<button class="btn alt" onclick="rs(this)">Effacer ma progression</button>`}
+function fin(k){S.done[k]=true;save();go()}
+function ans(k){qz.a=k;if(k==M[mod].Q[qz.i][2])qz.s++;go()}
+function pv(){$("#fr").srcdoc=$("#ed").value}
+function rs(b){if(b.dataset.c){S={done:{},quiz:{},name:""};save();go()}else{b.dataset.c=1;b.textContent="Confirmer l’effacement"}}
+function nav(t){tab=t;mod=null;qz=null;go()}
+function go(){const y=window.scrollY;
+$("main").innerHTML=qz?vQ():mod!=null?vMod():tab=="cours"?vCours():tab=="prog"?vProg():vInfo();
+document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t==tab));
+if($("#ed")){$("#ed").value=sb;pv()}
+window.scrollTo(0,qz||mod==null?0:y)}
+let valid=null,ME='';
+const ADS0=[{t:'Ton commerce ici ?',d:'Fais connaître ton activité aux apprenants de DigiAcadémie avec une publicité.',u:(window.CONFIG&&CONFIG.contact)||''}];
+const href=u=>{u=String(u||'').trim();return /^https:\/\//i.test(u)?u:/^\+?[\d\s-]{8,16}$/.test(u)?'https://wa.me/'+u.replace(/\D/g,''):''};
+function adCard(i){const l=window.CONFIG&&CONFIG.ads&&CONFIG.ads.length?CONFIG.ads:ADS0,a=l[i%l.length],h=href(a.u);return `<aside class='card ad' aria-label='Publicité'><small class='mut'>Publicité</small><br><b>${esc(a.t)}</b><p>${esc(a.d||'')}</p>${h?`<a class='btn alt' href="${esc(h)}" target='_blank' rel='noopener noreferrer sponsored'>En savoir plus</a>`:''}</aside>`}
+function vInfo(){const c=window.CONFIG&&CONFIG.contact?href(CONFIG.contact):'';return `<h2>À propos</h2><p>DigiAcadémie est une formation gratuite en informatique : ${M.length} modules, des exercices, des quiz et un certificat. Une fois ouverte, l’application fonctionne aussi hors connexion et ta progression reste sur ton téléphone.</p>${c?`<a class='btn' href="${esc(c)}" target='_blank' rel='noopener noreferrer'>Nous contacter sur WhatsApp</a>`:''}<a class='btn alt' href='politique-confidentialite.html'>Politique de confidentialité</a><h3>Annoncer dans l’application</h3><p class='mut'>Les publicités sont toujours signalées comme telles. Ton commerce peut en afficher une auprès des apprenants.${c?'':' Contacte l’organisateur.'}</p>`}
+go();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
